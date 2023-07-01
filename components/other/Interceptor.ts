@@ -1,12 +1,13 @@
 import { navigate } from './navigation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Tweet from "../model/Tweet";
 
 
 
-const attachTokenToHeaders = (): HeadersInit => {
+const attachTokenToHeaders = async () => {
     const headers: HeadersInit = {};
 
-    const token = getToken();
+    const token = await getToken();
     if (token) {
         headers['Authorization'] = `Bearer ${token}`;
     }
@@ -27,22 +28,24 @@ const handleResponse = async (response: Response) => {
 };
 
 export const get = async <T>(url: string): Promise<T> => {
-    const headers = attachTokenToHeaders();
+    const headers = await attachTokenToHeaders();
     const response = await fetch(url, { headers });
     return handleResponse(response);
 };
 
-export const post = async <T>(url: string, data: any): Promise<T> => {
+export const post = async (url: string, data: Tweet): Promise<any> => {
+    const tokenHeader = await  attachTokenToHeaders()
     const headers = {
-        ...attachTokenToHeaders(),
+        ...tokenHeader,
         'Content-Type': 'application/json',
     };
-
+    console.log(headers)
     const response = await fetch(url, {
         method: 'POST',
         headers,
         body: JSON.stringify(data),
     });
+    console.log(response);
     return handleResponse(response);
 };
 
@@ -56,7 +59,7 @@ export const storeToken = async (token: string): Promise<void> => {
     }
 };
 
-export const getToken = async (): Promise<string | null> => {
+const getToken = async (): Promise<string | null> => {
     try {
         const token = await AsyncStorage.getItem('token');
         console.log('Token retrieved:', token);

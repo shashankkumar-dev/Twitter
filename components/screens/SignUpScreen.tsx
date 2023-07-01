@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-nativ
 import { SIGNUP_URL } from "../other/url"; // Add this import statement
 import { navigate } from "../other/navigation"; // Add this import statement
 import axios from 'axios';
+import { getBackgroundColor } from "../views/BackgroundColor";
 
 const SignUpScreen = () => {
     const [username, setUsername] = useState('');
@@ -31,7 +32,7 @@ const SignUpScreen = () => {
     };
 
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, { backgroundColor: getBackgroundColor() }]}>
           <Text style={styles.title}>Sign Up</Text>
           <TextInput
             style={styles.input}

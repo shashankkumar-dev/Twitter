@@ -6,6 +6,7 @@ import TweetItem from '../views/TweetItem';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { navigate } from '../other/navigation';
 import Tweet from '../model/Tweet';
+import { getBackgroundColor } from "../views/BackgroundColor";
 
 
 const FeedScreen: React.FC = () => {
@@ -32,15 +33,15 @@ const FeedScreen: React.FC = () => {
     };
 
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, { backgroundColor: getBackgroundColor() }]}>
           <FlatList
             data={tweets}
             renderItem={renderTweetItem}
-            keyExtractor={(item) => item._id}
+            keyExtractor={(item) => item.messageID}
           />
 
           <TouchableOpacity style={styles.favoriteIconContainer}>
-              <Icon name="pencil" size={25} color="white" onPress={onClickPencil} />
+              <Icon name="pencil" size={25} color="white" onPress={onClickPencil.bind(this)} />
           </TouchableOpacity>
       </View>
     );

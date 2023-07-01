@@ -1,9 +1,8 @@
 interface Tweet {
-  _id: string;
+  messageID: string;
   handle: string;
-  text: string;
-  image?: string;
-  video?: string;
+  content: string;
+  date: Date;
 }
 
 export default Tweet;

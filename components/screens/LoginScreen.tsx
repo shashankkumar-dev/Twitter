@@ -4,6 +4,7 @@ import axios from 'axios';
 import { LOGIN_URL } from "../other/url";
 import { navigate } from "../other/navigation";
 import { storeToken } from "../other/Interceptor";
+import { getBackgroundColor } from "../views/BackgroundColor";
 
 const LoginScreen = () => {
     const [username, setUsername] = useState('');
@@ -39,7 +40,7 @@ const LoginScreen = () => {
     };
 
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, { backgroundColor: getBackgroundColor() }]}>
           <Text style={styles.title}>Login</Text>
           <TextInput
             style={styles.input}

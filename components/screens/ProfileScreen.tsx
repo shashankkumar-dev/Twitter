@@ -1,11 +1,12 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FeedScreen from "./FeedScreen";
+import { getBackgroundColor } from "../views/BackgroundColor";
 
 const ProfileScreen = () => {
     return (
-      <ScrollView style={styles.container}>
+      <ScrollView style={[styles.container, { backgroundColor: getBackgroundColor() }]}>
           <View style={styles.wallImageContainer}>
               <Image
                 source={require('../../assets/wall.png')}

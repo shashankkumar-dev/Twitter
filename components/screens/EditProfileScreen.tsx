@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import DatePicker from 'react-native-datepicker';
+import { getBackgroundColor } from "../views/BackgroundColor";
 
 const EditProfileScreen: React.FC = () => {
     const [name, setName] = useState('');
@@ -14,7 +15,7 @@ const EditProfileScreen: React.FC = () => {
     };
 
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, { backgroundColor: getBackgroundColor() }]}>
           <Text style={styles.title}>Edit Profile</Text>
           <TextInput
             style={styles.input}

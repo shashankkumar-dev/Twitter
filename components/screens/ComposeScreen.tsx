@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TWEET_URL } from '../other/url';
 import { View, TextInput, Button, StyleSheet } from 'react-native';
 import { post } from "../other/Interceptor";
+import { getBackgroundColor } from "../views/BackgroundColor";
 
 const userID = '5f9f7b7b1c9d440000b0b9a0';
 
@@ -10,10 +11,11 @@ const ComposeScreen: React.FC = () => {
 
     const handleTweetSubmit = async () => {
         try {
-            const response = await post(TWEET_URL, {
-                messageID: '5f9f7b7b1c9d440000b0b9a0',
+            await post(TWEET_URL, {
+                messageID: Math.random().toString(16).slice(2),
                 handle: userID,
                 content: tweetContent,
+                date: (new Date()),
             });
             console.log('Tweet submitted!');
             setTweetContent('');
@@ -23,7 +25,7 @@ const ComposeScreen: React.FC = () => {
     };
 
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, { backgroundColor: getBackgroundColor() }]}>
           <TextInput
             style={styles.input}
             placeholder="What's happening?"
