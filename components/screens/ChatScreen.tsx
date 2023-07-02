@@ -1,8 +1,8 @@
-import React from 'react';
-import io from 'socket.io-client';
-import ChatMessages from '../views/ChatMessages';
-import ChatInput from '../views/ChatInput';
-import { StyleSheet, View } from 'react-native';
+import React from "react";
+import io from "socket.io-client";
+import ChatMessages from "../views/ChatMessages";
+import ChatInput from "../views/ChatInput";
+import { StyleSheet, View } from "react-native";
 import { API_URL } from "../other/url";
 import { getBackgroundColor } from "../views/BackgroundColor";
 
@@ -21,9 +21,9 @@ const ChatScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'stretch',
-  },
+    justifyContent: "center",
+    alignItems: "stretch"
+  }
 });
 
 export default ChatScreen;

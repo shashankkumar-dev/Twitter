@@ -1,5 +1,4 @@
-import { NavigationContainerRef } from '@react-navigation/native';
-import { CommonActions } from '@react-navigation/native';
+import { CommonActions, NavigationContainerRef } from "@react-navigation/native";
 
 let navigatorRef: NavigationContainerRef<any>; // Specify the type argument (e.g., 'any')
 
@@ -11,7 +10,7 @@ export function navigate(routeName: string, params?: object) {
   navigatorRef.dispatch(
     CommonActions.navigate({
       name: routeName,
-      params: params,
+      params: params
     })
   );
 }

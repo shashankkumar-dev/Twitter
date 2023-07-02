@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import React, { useEffect, useRef, useState } from "react";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 interface ChatMessage {
   msgId: string;
@@ -17,7 +17,7 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({ userId, socket }) => {
   const scrollViewRef = useRef<ScrollView>(null);
 
   useEffect(() => {
-    socket.on('receiveMessage', (message: ChatMessage) => {
+    socket.on("receiveMessage", (message: ChatMessage) => {
       setMessages((prevMessages) => [...prevMessages, message]);
       scrollToBottom();
     });
@@ -43,7 +43,7 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({ userId, socket }) => {
         return (
           <View style={containerStyle} key={item.msgId}>
             <Text style={textStyle}>
-              {isCurrentUser ? 'You' : item.userId}: {item.text}
+              {isCurrentUser ? "You" : item.userId}: {item.text}
             </Text>
           </View>
         );
@@ -54,27 +54,27 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({ userId, socket }) => {
 
 const styles = StyleSheet.create({
   messageContainer: {
-    backgroundColor: '#f2f2f2',
+    backgroundColor: "#f2f2f2",
     borderRadius: 8,
     padding: 8,
-    margin: 8,
+    margin: 8
   },
   alignRight: {
-    alignSelf: 'flex-end',
-    backgroundColor: '#007bff',
+    alignSelf: "flex-end",
+    backgroundColor: "#007bff"
   },
   alignLeft: {
-    alignSelf: 'flex-start',
-    backgroundColor: '#007bff',
+    alignSelf: "flex-start",
+    backgroundColor: "#007bff"
   },
   messageText: {
     fontSize: 16,
-    color: '#fff',
+    color: "#fff"
   },
   scrollViewContent: {
     flexGrow: 1,
-    justifyContent: 'flex-end',
-  },
+    justifyContent: "flex-end"
+  }
 });
 
 export default ChatMessages;

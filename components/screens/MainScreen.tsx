@@ -16,6 +16,7 @@ type RootStackParamList = {
   Compose: undefined;
   EditProfile: undefined;
   Tab: undefined;
+  Logout: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -24,15 +25,14 @@ export default function MainScreen() {
   const backgroundColor = getBackgroundColor(); // Store the background color in a variable
   StatusBar.setBackgroundColor(backgroundColor); // Set the color of the status bar (action bar)
   StatusBar.setBarStyle("light-content");
-
   return (
     <NavigationContainer ref={setNavigator}>
       <Stack.Navigator
         screenOptions={{
           headerStyle: {
-            backgroundColor: getBackgroundColor(), // Set action bar color
+            backgroundColor: getBackgroundColor() // Set action bar color
           },
-          headerTintColor: getReverseBackgroundColor(), // Set text color
+          headerTintColor: getReverseBackgroundColor() // Set text color
         }}
       >
         <Stack.Screen name="Tab" component={BottomTab} options={{ headerShown: false }} />
@@ -40,6 +40,8 @@ export default function MainScreen() {
         <Stack.Screen name="SignUp" component={SignUpScreen} />
         <Stack.Screen name="Compose" component={ComposeScreen} />
         <Stack.Screen name="EditProfile" component={EditProfileScreen} />
+        <Stack.Screen name="Logout" component={LoginScreen} options={{ title: "Logout" }} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );
