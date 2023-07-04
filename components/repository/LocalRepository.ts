@@ -21,14 +21,8 @@ export const getToken = async (): Promise<string | null> => {
   }
 };
 
-export const storeUser = async (handle: string): Promise<void> => {
+export const storeUser = async (user: User): Promise<void> => {
   try {
-    const user: User = {
-      _id: Math.random().toString(16).slice(2),
-      handle: handle,
-      imageUrl: null,
-      data: null,
-    }
     await AsyncStorage.setItem("user", JSON.stringify(user));
     console.log("User stored:", user);
   } catch (error) {

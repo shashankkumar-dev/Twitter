@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { navigate } from "../other/navigation"; // Add this import statement
+import { navigate } from "../other/navigation";
 import { getBackgroundColor } from "../views/BackgroundColor";
 import { signUp } from "../repository/LoginRepository";
 
@@ -8,9 +8,11 @@ import { signUp } from "../repository/LoginRepository";
 const SignUpScreen = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [handle, setHandle] = useState("");
+
 
   const handleSignUp = async () => {
-    await signUp(username, password).then((message) => {
+    await signUp(username, password, handle).then((message) => {
       if (message) {
         alert("Sign Up failed" + message);
       } else {
@@ -29,6 +31,12 @@ const SignUpScreen = () => {
         placeholder="Username"
         onChangeText={setUsername}
         value={username}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="User Handle"
+        onChangeText={setHandle}
+        value={handle}
       />
       <TextInput
         style={styles.input}

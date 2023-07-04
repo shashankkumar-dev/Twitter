@@ -1,42 +1,91 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import FeedScreen from "./FeedScreen";
 import { getBackgroundColor } from "../views/BackgroundColor";
+import ProfileData from "../model/ProfileData";
+import { getUser } from "../repository/LocalRepository";
+import User from "../model/User";
+
+
+const data: ProfileData = {
+  handle: "@john doe",
+  bio: "Full-stack Developer | Tech Enthusiast | Coffee Lover",
+  location: "New York, USA",
+  dob: new Date(1990, 0, 1),
+  following: 5900,
+  followers: 10500,
+  wallpaperUrl: null,
+  tweets: []
+};
+
 
 const ProfileScreen = () => {
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const fetchedUser = await getUser(); // Call the getUser function to fetch the user data
+      setUser(fetchedUser);
+    };
+
+    fetchUser().then(r => console.log("User fetched", r)).catch(e => console.log(e));
+  }, []);
+
+
   return (
     <ScrollView style={[styles.container, { backgroundColor: getBackgroundColor() }]}>
       <View style={styles.wallImageContainer}>
-        <Image
-          source={require("../../assets/wall.png")}
-          style={styles.wallImage}
-        />
-        <Image
-          source={require("../../assets/user.png")}
-          style={styles.profilePicture}
-        />
+        {data.wallpaperUrl && (
+          <Image
+            source={{ uri: data.wallpaperUrl }}
+            style={styles.wallImage}
+          />
+        )}
+        {!data.wallpaperUrl && (
+          <Image
+            source={require("../../assets/wall.png")}
+            style={styles.wallImage}
+          />
+        )}
+        {user && user.imageUrl && (
+          <Image
+            source={{ uri: user.imageUrl }}
+            style={styles.profilePicture}
+          />
+        )}
+        {!user || !user.imageUrl && (
+          <Image
+            source={require("../../assets/user.png")}
+            style={styles.profilePicture}
+          />
+        )}
       </View>
 
       <View style={styles.userInfoContainer}>
-        <Text style={styles.name}>John Doe</Text>
-        <Text style={styles.handle}>@johndoe</Text>
-        <Text style={styles.bio}>Full-stack Developer | Tech Enthusiast | Coffee Lover</Text>
+        <Text style={styles.name}>{user?.name}</Text>
+        <Text style={styles.handle}>@{user?.handle}</Text>
+        {data.bio && <Text style={styles.bio}>{data.bio}</Text>}
         <View style={styles.infoRow}>
           <Icon name="map-marker" size={16} color="gray" style={styles.icon} />
-          <Text style={styles.infoValue}>New York, USA</Text>
+          {data.location && <Text style={styles.infoValue}>{data.location}</Text>}
           <Icon name="birthday-cake" size={16} color="gray" style={styles.icon} />
-          <Text style={styles.infoValue}>January 1, 1990</Text>
+          {data.dob && <Text
+            style={styles.infoValue}>{data.dob.getDate()} {data.dob.toLocaleString("default", { month: "long" })} {data.dob.getFullYear()}</Text>}
         </View>
         <View style={styles.infoRow}>
           <Icon name="calendar" size={16} color="gray" style={styles.icon} />
-          <Text style={styles.infoValue}>Joined:</Text>
-          <Text style={styles.infoValue}>June 1, 2010</Text>
+          {user?.joined &&
+            <Text style={styles.infoValue}>Joined:</Text> &&
+            <Text
+              style={styles.infoValue}>{user.joined.getDate()} {user.joined.toLocaleString("default", { month: "long" })} {user.joined.getFullYear()}</Text>
+          }
+
         </View>
         <View style={styles.followContainer}>
-          <Text style={styles.followCount}>5.9K</Text>
+          <Text style={styles.followCount}>{data.following}</Text>
           <Text style={styles.followLabel}>Following</Text>
-          <Text style={styles.followCount}>10.5K</Text>
+          <Text style={styles.followCount}>{data.followers}</Text>
           <Text style={styles.followLabel}>Followers</Text>
         </View>
       </View>
@@ -44,7 +93,7 @@ const ProfileScreen = () => {
       <View style={styles.lineBreak} />
 
       <FeedScreen />
-      {/* TweetListScreen component goes here */}
+
     </ScrollView>
   );
 };

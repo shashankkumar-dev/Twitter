@@ -1,38 +1,50 @@
 import axios from "axios";
 import { LOGIN_URL, SIGNUP_URL } from "../other/url";
-import { storeToken } from "./LocalRepository";
+import { storeToken, storeUser } from "./LocalRepository";
+import { getUser, postUser } from "./UserRepository";
 
 
-export const login = async (username: String, password: String) => {
+export const login = async (handle: string, password: string) => {
   console.log("login");
-  const data = { username, password };
-  await axios.post(LOGIN_URL, data).then((response) => {
+  const data = { handle, password };
+  try {
+    const response = await axios.post(LOGIN_URL, data);
     console.log("login response:", response);
-    if (response.status === 200) {
+    if (response.status === 200 && response.data.success === true) {
       const token = response.data.token;
       console.log("token", token);
-      storeToken(token);// Save the token in local storage
+      const user = await getUser(handle)
+      await storeToken(token);// Save the token in local storage
+      if (user !== null) {
+        await storeUser(user);// Save the username in local storage
+      }
       console.log("Login successful");
       return true;
     }
-  }).catch((error) => {
+  } catch (error) {
     console.log("login error:", error);
-  });
+    return false;
+  }
   return false;
 };
 
-export const signUp = async (username: String, password: String): Promise<string | null> => {
-  const data = { username, password };
-
-  await axios.post(SIGNUP_URL, data).then((response) => {
-    console.log("signUp response:", response);
-    if (response.status === 200) {
+export const signUp = async (username: string, password: string, handle: string) => {
+  const data = { handle, password };
+  console.log("signUp", data)
+  try {
+    const response = await axios.post(SIGNUP_URL, data);
+    console.log(response.data)
+    if (response.status === 200 && response.data.success === true) {
       console.log("Sign-up successful");
+      await postUser(username, password, handle);
       return null;
+    } else {
+      console.log("Sign-up unsuccessful");
+      return response.data.error;
     }
-  }).catch((error) => {
+  } catch (error) {
     console.log("signUp error:", error);
     return error;
-  });
+  }
   return "Unknown error";
 };

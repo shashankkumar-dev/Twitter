@@ -7,6 +7,7 @@ import FeedScreen from "../screens/FeedScreen";
 import ChatScreen from "../screens/ChatScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import EditProfileScreen from "../screens/EditProfileScreen";
+import { renderOptionsMenu } from "./OptionMenu";
 
 type RootTabParamList = {
   Home: undefined;
@@ -67,7 +68,8 @@ const BottomTab = () => {
           // @ts-ignore
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-        ...tabBarColors
+        ...tabBarColors,
+        headerRight: renderOptionsMenu,
       })}
     >
       <Tab.Screen name="Home" component={FeedScreen} />

@@ -1,9 +1,13 @@
 import Tweet from "./Tweet";
 
 interface ProfileData {
-  bio: string;
-  dob: Date;
-  location: string;
+  handle: string;
+  bio: string  | null;
+  dob: Date | null;
+  location: string | null;
+  followers: number;
+  following: number;
+  wallpaperUrl: string | null;
   tweets: Tweet[];
 }
 

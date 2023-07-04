@@ -4,21 +4,18 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import Video from "react-native-video";
 import Tweet from "../model/Tweet";
 
-const imageSrc =
-  "https://www.pngitem.com/pimgs/m/661-6618266_avatar-icon-clipart-png-download-avatar-movie-face.png";
-
 const TweetItem = ({ item }: { item: Tweet }) => {
   return (
     <View style={styles.tweetContainer}>
-      <Image source={{ uri: imageSrc }} style={styles.avatar} />
+      <Image source={require("../../assets/user.png")} style={styles.avatar} />
       <View style={styles.tweetContent}>
         <View style={styles.tweetHeader}>
-          <Text style={styles.username}>John Doe</Text>
+          <Text style={styles.username}>us</Text>
           <Text style={styles.handle}>@johndoe</Text>
         </View>
         <Text>{item.content}</Text>
-        {item.image && <Image source={{ uri: item.image }} style={styles.image} />}
-        {item.video && <Video source={{ uri: item.video }} style={styles.video} />}
+        {/*{item.image && <Image source={{ uri: item.image }} style={styles.image} />}*/}
+        {/*{item.video && <Video source={{ uri: item.video }} style={styles.video} />}*/}
         <View style={styles.actionsContainer}>
           <Icon name="comment-o" size={20} color="gray" style={styles.actionIcon} />
           <Icon name="heart-o" size={20} color="gray" style={styles.actionIcon} />
