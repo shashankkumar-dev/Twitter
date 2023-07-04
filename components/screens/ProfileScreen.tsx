@@ -75,11 +75,16 @@ const ProfileScreen = () => {
         </View>
         <View style={styles.infoRow}>
           <Icon name="calendar" size={16} color="gray" style={styles.icon} />
-          {user?.joined &&
-            <Text style={styles.infoValue}>Joined:</Text> &&
-            <Text
-              style={styles.infoValue}>{user.joined.getDate()} {user.joined.toLocaleString("default", { month: "long" })} {user.joined.getFullYear()}</Text>
-          }
+          {user?.joined && (
+            <>
+              <Text style={styles.infoValue}>Joined:</Text>
+              <Text style={styles.infoValue}>
+                {new Date(user.joined).getDate()}{' '}
+                {new Date(user.joined).toLocaleString('default', { month: 'long' })}{' '}
+                {new Date(user.joined).getFullYear()}
+              </Text>
+            </>
+          )}
 
         </View>
         <View style={styles.followContainer}>
