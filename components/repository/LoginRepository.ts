@@ -10,7 +10,7 @@ export const login = async (handle: string, password: string) => {
   try {
     const response = await axios.post(LOGIN_URL, data);
     console.log("login response:", response);
-    if (response.status === 200 && response.data.success === true) {
+    if (response.status === 200 && response.data.token) {
       const token = response.data.token;
       console.log("token", token);
       const user = await getUser(handle)

@@ -24,6 +24,7 @@ export const postUser = async (username: string, password: string, handle: strin
     joined: new Date(),
     data: null,
   };
+  console.log("postUser data:", data)
   post(USER_URL, data)
     .then((response) => {
       console.log("postUser response:", response);
