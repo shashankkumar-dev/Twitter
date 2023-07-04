@@ -1,26 +1,56 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome";
-import Video from "react-native-video";
 import Tweet from "../model/Tweet";
+import User from "../model/User";
+import { getUser } from "../repository/UserRepository";
+import { getReverseBackgroundColor } from "./BackgroundColor";
 
 const TweetItem = ({ item }: { item: Tweet }) => {
+
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const fetchedUser: User|null = await getUser(item.handle); // Call the getUser function to fetch the user data
+      setUser(fetchedUser);
+    };
+
+    fetchUser().then(r => console.log("User fetched", r)).catch(e => console.log(e));
+  }, []);
+
+
   return (
     <View style={styles.tweetContainer}>
       <Image source={require("../../assets/user.png")} style={styles.avatar} />
       <View style={styles.tweetContent}>
         <View style={styles.tweetHeader}>
-          <Text style={styles.username}>us</Text>
-          <Text style={styles.handle}>@johndoe</Text>
+          <Text style={styles.username}>{user?.name ? user?.name : "User" }</Text>
+          <Text style={styles.handle}>@{user?.handle ? user?.handle : "handle" }</Text>
         </View>
         <Text>{item.content}</Text>
         {/*{item.image && <Image source={{ uri: item.image }} style={styles.image} />}*/}
         {/*{item.video && <Video source={{ uri: item.video }} style={styles.video} />}*/}
         <View style={styles.actionsContainer}>
-          <Icon name="comment-o" size={20} color="gray" style={styles.actionIcon} />
-          <Icon name="heart-o" size={20} color="gray" style={styles.actionIcon} />
-          <Icon name="retweet" size={20} color="gray" style={styles.actionIcon} />
-          <Icon name="share-square-o" size={20} color="gray" style={styles.actionIcon} />
+          <Image
+            source={require("../../assets/comment.png")}
+            style={styles.actionImage}
+            tintColor={getReverseBackgroundColor()}
+          />
+          <Image
+            source={require("../../assets/heart.png")}
+            style={styles.actionImage}
+            tintColor={getReverseBackgroundColor()}
+          />
+          <Image
+            source={require("../../assets/retweet.png")}
+            style={styles.actionImage}
+            tintColor={getReverseBackgroundColor()}
+          />
+          <Image
+            source={require("../../assets/share.png")}
+            style={styles.actionImage}
+            tintColor={getReverseBackgroundColor()}
+          />
         </View>
       </View>
       <View style={styles.lineBreak} />
@@ -32,6 +62,7 @@ const styles = StyleSheet.create({
   tweetContainer: {
     flexDirection: "row",
     padding: 2,
+    marginTop: 10,
     borderBottomWidth: 1,
     borderBottomColor: "lightgray"
   },
@@ -66,7 +97,8 @@ const styles = StyleSheet.create({
   },
   lineBreak: {
     height: 10,
-    backgroundColor: "lightgray"
+    backgroundColor: "lightgray",
+    marginVertical: 10
   },
   actionsContainer: {
     marginTop: 5,
@@ -74,11 +106,14 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingVertical: 4
   },
-  actionIcon: {
+  actionImage: {
+    resizeMode: "contain",
+    width: 20,
+    height: 20,
     marginRight: 10
   },
   tweetHeader: {
-    flexDirection: "row"
+    flexDirection: "row",
   }
 });
 

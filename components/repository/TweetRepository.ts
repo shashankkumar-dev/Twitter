@@ -1,6 +1,7 @@
 import Tweet from "../model/Tweet";
 import { TWEET_URL } from "../other/url";
 import { get, post } from "../other/Interceptor";
+import { getUser } from "./LocalRepository";
 
 export const getTweets = async (): Promise<Tweet[]> => {
   console.log("getTweets");
@@ -19,11 +20,12 @@ export const getTweets = async (): Promise<Tweet[]> => {
   }
 };
 
-export const postTweet = (content: string) => {
+export const postTweet = async (content: string) => {
   console.log("postTweet");
+  const user = await getUser()
   const data: Tweet = {
     messageID: Math.random().toString(16).slice(2),
-    handle: "test",
+    handle: user?.handle || "user",
     content: content,
     date: new Date()
   };

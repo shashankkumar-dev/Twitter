@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from "react-native";
 import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import { getBackgroundColor, getReverseBackgroundColor } from "../views/BackgroundColor";
-import ImagePicker, { ImageLibraryOptions, ImagePickerResponse } from "react-native-image-picker";
+import ImagePicker, { ImageLibraryOptions } from "react-native-image-picker";
 
 
 const calendarIcon = require("../../assets/calendar.png");
@@ -48,9 +48,9 @@ const EditProfileScreen: React.FC = () => {
     };
 
     ImagePicker.launchImageLibrary(options, (response) => {
-      if (!response.didCancel && !response.error) {
-        setImageUri(response.uri);
-      }
+      // if (!response.didCancel && !response.error) {
+      //   setImageUri(response.uri);
+      // }
     }).then(r => console.log("Image selected", r)).catch(e => console.log(e));
   };
 
@@ -182,6 +182,7 @@ const styles = StyleSheet.create({
     borderRadius: 100, // Make the image circular
   },
   editIconContainer: {
+    backgroundColor: "#1DA1F2",
     position: "absolute",
     bottom: 0,
     right: 0,

@@ -143,7 +143,8 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 4
+    marginBottom: 4,
+    marginTop: 16
   },
   handle: {
     fontSize: 16,
