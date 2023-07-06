@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import User from "../model/User";
+import Profile from "../model/Profile";
 
 export const storeToken = async (token: string): Promise<void> => {
   try {
@@ -37,6 +38,26 @@ export const getUser = async (): Promise<User | null> => {
     return JSON.parse(<string>user);
   } catch (error) {
     console.error("Error retrieving user:", error);
+    return null;
+  }
+}
+
+export const storeProfile = async (profile: Profile): Promise<void> => {
+  try {
+    await AsyncStorage.setItem("Profile", JSON.stringify(profile));
+    console.log("Profile stored:", profile);
+  } catch (error) {
+    console.error("Error storing Profile:", error);
+  }
+};
+
+export const getProfile = async (): Promise<Profile | null> => {
+  try {
+    const Profile = await AsyncStorage.getItem("Profile");
+    console.log("Profile retrieved:", Profile);
+    return JSON.parse(<string>Profile);
+  } catch (error) {
+    console.error("Error retrieving Profile:", error);
     return null;
   }
 }

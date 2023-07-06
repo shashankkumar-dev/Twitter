@@ -1,48 +1,57 @@
 import React, { useEffect, useState } from "react";
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome";
+import { Image, RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
 import FeedScreen from "./FeedScreen";
-import { getBackgroundColor } from "../views/BackgroundColor";
-import ProfileData from "../model/ProfileData";
-import { getUser } from "../repository/LocalRepository";
+import { getBackgroundColor, getReverseBackgroundColor } from "../views/BackgroundColor";
+import Profile from "../model/Profile";
+import { getProfile, getUser } from "../repository/LocalRepository";
 import User from "../model/User";
 
-
-const data: ProfileData = {
-  handle: "@john doe",
-  bio: "Full-stack Developer | Tech Enthusiast | Coffee Lover",
-  location: "New York, USA",
-  dob: new Date(1990, 0, 1),
-  following: 5900,
-  followers: 10500,
-  wallpaperUrl: null,
-  tweets: []
-};
-
+const locationIcon = require("../../assets/location.png");
+const cakeIcon = require("../../assets/cake.png");
+const calendarIcon = require("../../assets/calendar.png");
 
 const ProfileScreen = () => {
   const [user, setUser] = useState<User | null>(null);
+  const [profile, setProfile] = useState<Profile | null>(null);
+  const [refreshing, setRefreshing] = useState(false);
+
 
   useEffect(() => {
-    const fetchUser = async () => {
-      const fetchedUser = await getUser(); // Call the getUser function to fetch the user data
-      setUser(fetchedUser);
-    };
-
-    fetchUser().then(r => console.log("User fetched", r)).catch(e => console.log(e));
+    fetchData().then(r => console.log("User fetched", r)).catch(e => console.log(e));
   }, []);
+
+  const fetchData = async () => {
+    const fetchedUser = await getUser(); // Call the getUser function to fetch the user data
+    const fetchedProfile = await getProfile();
+    setProfile(fetchedProfile);
+    setUser(fetchedUser);
+  }
+
+  const handleRefresh = () => {
+    setRefreshing(true);
+    fetchData().then(() => setRefreshing(false)).catch(e => console.log(e));
+    setRefreshing(false);
+  };
 
 
   return (
-    <ScrollView style={[styles.container, { backgroundColor: getBackgroundColor() }]}>
+    <ScrollView style={[styles.container, { backgroundColor: getBackgroundColor() }]}
+                refreshControl={
+                  <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={handleRefresh}
+                    colors={['#3b5998', '#F44336', '#FF9800']}
+                  />
+                }
+    >
       <View style={styles.wallImageContainer}>
-        {data.wallpaperUrl && (
+        {profile?.wallpaperUrl && (
           <Image
-            source={{ uri: data.wallpaperUrl }}
+            source={{ uri: profile.wallpaperUrl }}
             style={styles.wallImage}
           />
         )}
-        {!data.wallpaperUrl && (
+        {(
           <Image
             source={require("../../assets/wall.png")}
             style={styles.wallImage}
@@ -65,22 +74,26 @@ const ProfileScreen = () => {
       <View style={styles.userInfoContainer}>
         <Text style={styles.name}>{user?.name}</Text>
         <Text style={styles.handle}>@{user?.handle}</Text>
-        {data.bio && <Text style={styles.bio}>{data.bio}</Text>}
+        {profile?.bio && <Text style={styles.bio}>{profile.bio}</Text>}
         <View style={styles.infoRow}>
-          <Icon name="map-marker" size={16} color="gray" style={styles.icon} />
-          {data.location && <Text style={styles.infoValue}>{data.location}</Text>}
-          <Icon name="birthday-cake" size={16} color="gray" style={styles.icon} />
-          {data.dob && <Text
-            style={styles.infoValue}>{data.dob.getDate()} {data.dob.toLocaleString("default", { month: "long" })} {data.dob.getFullYear()}</Text>}
+          <Image source={locationIcon} style={styles.smallIcon} tintColor={getReverseBackgroundColor()} />
+          {profile?.location && <Text style={styles.infoValue}>{profile.location}</Text>}
+          <Image source={cakeIcon} style={styles.smallIcon} tintColor={getReverseBackgroundColor()} />
+          {profile?.dob && <Text
+            style={styles.infoValue}>
+            {new Date(profile?.dob).getDate()}{' '}
+            {new Date(profile?.dob).toLocaleString('default', { month: 'long' })}{' '}
+            {new Date(profile?.dob).getFullYear()}
+          </Text>}
         </View>
         <View style={styles.infoRow}>
-          <Icon name="calendar" size={16} color="gray" style={styles.icon} />
+          <Image source={calendarIcon} style={styles.smallIcon} tintColor={getReverseBackgroundColor()} />
           {user?.joined && (
             <>
               <Text style={styles.infoValue}>Joined:</Text>
               <Text style={styles.infoValue}>
-                {new Date(user.joined).getDate()}{' '}
-                {new Date(user.joined).toLocaleString('default', { month: 'long' })}{' '}
+                {new Date(user.joined).getDate()}{" "}
+                {new Date(user.joined).toLocaleString("default", { month: "long" })}{" "}
                 {new Date(user.joined).getFullYear()}
               </Text>
             </>
@@ -88,9 +101,9 @@ const ProfileScreen = () => {
 
         </View>
         <View style={styles.followContainer}>
-          <Text style={styles.followCount}>{data.following}</Text>
+          <Text style={styles.followCount}>{profile?.following ? profile?.following : 0}</Text>
           <Text style={styles.followLabel}>Following</Text>
-          <Text style={styles.followCount}>{data.followers}</Text>
+          <Text style={styles.followCount}>{profile?.followers ? profile?.followers : 0}</Text>
           <Text style={styles.followLabel}>Followers</Text>
         </View>
       </View>
@@ -185,7 +198,14 @@ const styles = StyleSheet.create({
     marginRight: 8,
     fontSize: 14,
     color: "gray"
-  }
+  },
+  smallIcon: {
+    width: 15,
+    height: 15,
+    resizeMode: "contain",
+    marginRight: 5,
+    marginBottom: -2
+  },
 });
 
 export default ProfileScreen;

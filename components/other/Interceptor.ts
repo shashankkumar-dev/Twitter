@@ -3,6 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Tweet from "../model/Tweet";
 import { getToken } from "../repository/LocalRepository";
 import User from "../model/User";
+import Profile from "../model/Profile";
 
 
 const attachTokenToHeaders = async () => {
@@ -32,7 +33,7 @@ export const get = async <T>(url: string): Promise<T> => {
   return handleResponse(response);
 };
 
-export const post = async (url: string, data: User | Tweet): Promise<any> => {
+export const post = async (url: string, data: User | Tweet | Profile): Promise<any> => {
   const tokenHeader = await attachTokenToHeaders();
   const headers = {
     ...tokenHeader,
