@@ -1,4 +1,3 @@
-import Tweet from "./Tweet";
 
 interface Profile {
   handle: string;
@@ -8,7 +7,7 @@ interface Profile {
   followers: number;
   following: number;
   wallpaperUrl: string | null;
-  tweets: Tweet[];
+  tweets: String[];
 }
 
 const profile: Profile = {

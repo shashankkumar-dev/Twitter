@@ -8,16 +8,20 @@ import { getTweets } from "../repository/TweetRepository";
 
 const pencilIcon = require("../../assets/pencil.png");
 
+interface FeedScreenProps {
+  handle: string | undefined;
+}
 
-const FeedScreen: React.FC = () => {
+const FeedScreen: React.FC<FeedScreenProps> = ({ handle }) => {
   const [tweets, setTweets] = useState<Tweet[]>([]);
 
   useEffect(() => {
-    handleFetchTweets();
+    console.log("Fetching tweets"+handle);
+    handleFetchTweets().then(r => console.log("Tweets fetched", r)).catch(e => console.log(e));
   }, []);
 
   const handleFetchTweets = async () => {
-    const data = await getTweets();
+    const data = await getTweets(handle);
     setTweets(data);
   };
   const renderTweetItem = ({ item }: { item: Tweet }) => <TweetItem item={item} />;

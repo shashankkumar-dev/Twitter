@@ -1,13 +1,13 @@
 import * as React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Ionicons } from "@expo/vector-icons";
-import { useColorScheme } from "react-native";
+import { Image, StyleSheet, useColorScheme } from "react-native";
 
 import FeedScreen from "../screens/FeedScreen";
 import ChatScreen from "../screens/ChatScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import EditProfileScreen from "../screens/EditProfileScreen";
 import { renderOptionsMenu } from "./OptionMenu";
+import { getReverseBackgroundColor } from "./BackgroundColor";
 
 type RootTabParamList = {
   Home: undefined;
@@ -18,6 +18,12 @@ type RootTabParamList = {
 };
 
 const Tab = createBottomTabNavigator<RootTabParamList>();
+
+const FeedTab = () => {
+  return (
+    <FeedScreen handle={undefined}/>
+  );
+}
 
 const BottomTab = () => {
   const colorScheme = useColorScheme();
@@ -48,32 +54,33 @@ const BottomTab = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarIcon: ({ color, size }) => {
-          let iconName: string;
+        tabBarIcon: ({ size }) => {
+          let icon
 
           if (route.name === "Home") {
-            iconName = "home";
+            icon = require("../../assets/home.png");
           } else if (route.name === "Search") {
-            iconName = "search";
+            icon = require("../../assets/search.png");
           } else if (route.name === "Notifications") {
-            iconName = "notifications";
+            icon = require("../../assets/notification.png");
           } else if (route.name === "Messages") {
-            iconName = "mail";
+            icon = require("../../assets/mail.png");
           } else if (route.name === "Profile") {
-            iconName = "person";
+            icon = require("../../assets/profile.png");
           } else {
-            iconName = "";
+            icon = require("../../assets/home.png");
           }
 
           // @ts-ignore
-          return <Ionicons name={iconName} size={size} color={color} />;
+          return <Image source={icon} style={styles.smallIcon} tintColor={getReverseBackgroundColor()} />;
         },
+        tabBarLabel: "", // Set tabBarLabel to an empty string to remove the label
         ...tabBarColors,
         headerRight: renderOptionsMenu,
       })}
     >
-      <Tab.Screen name="Home" component={FeedScreen} />
-      <Tab.Screen name="Search" component={FeedScreen} />
+      <Tab.Screen name="Home" component={FeedTab} />
+      <Tab.Screen name="Search" component={ChatScreen} />
       <Tab.Screen name="Notifications" component={EditProfileScreen} />
       <Tab.Screen name="Messages" component={ChatScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
@@ -81,4 +88,12 @@ const BottomTab = () => {
   );
 };
 
+const styles = StyleSheet.create({
+  smallIcon: {
+    width: 25,
+    height: 25,
+    resizeMode: "contain",
+    marginTop: 10,
+  },
+});
 export default BottomTab;

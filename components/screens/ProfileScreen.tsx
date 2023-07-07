@@ -109,8 +109,7 @@ const ProfileScreen = () => {
       </View>
 
       <View style={styles.lineBreak} />
-
-      <FeedScreen />
+      {user?.handle && <FeedScreen handle={user.handle} />}
 
     </ScrollView>
   );
