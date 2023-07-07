@@ -21,9 +21,9 @@ const Tab = createBottomTabNavigator<RootTabParamList>();
 
 const FeedTab = () => {
   return (
-    <FeedScreen handle={undefined}/>
+    <FeedScreen handle={undefined} />
   );
-}
+};
 
 const BottomTab = () => {
   const colorScheme = useColorScheme();
@@ -54,8 +54,8 @@ const BottomTab = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarIcon: ({ size }) => {
-          let icon
+        tabBarIcon: () => {
+          let icon;
 
           if (route.name === "Home") {
             icon = require("../../assets/home.png");
@@ -76,7 +76,7 @@ const BottomTab = () => {
         },
         tabBarLabel: "", // Set tabBarLabel to an empty string to remove the label
         ...tabBarColors,
-        headerRight: renderOptionsMenu,
+        headerRight: renderOptionsMenu
       })}
     >
       <Tab.Screen name="Home" component={FeedTab} />
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     width: 25,
     height: 25,
     resizeMode: "contain",
-    marginTop: 10,
-  },
+    marginTop: 10
+  }
 });
 export default BottomTab;

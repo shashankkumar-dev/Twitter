@@ -25,7 +25,7 @@ const ProfileScreen = () => {
     const fetchedProfile = await getProfile();
     setProfile(fetchedProfile);
     setUser(fetchedUser);
-  }
+  };
 
   const handleRefresh = () => {
     setRefreshing(true);
@@ -40,7 +40,7 @@ const ProfileScreen = () => {
                   <RefreshControl
                     refreshing={refreshing}
                     onRefresh={handleRefresh}
-                    colors={['#3b5998', '#F44336', '#FF9800']}
+                    colors={["#3b5998", "#F44336", "#FF9800"]}
                   />
                 }
     >
@@ -81,8 +81,8 @@ const ProfileScreen = () => {
           <Image source={cakeIcon} style={styles.smallIcon} tintColor={getReverseBackgroundColor()} />
           {profile?.dob && <Text
             style={styles.infoValue}>
-            {new Date(profile?.dob).getDate()}{' '}
-            {new Date(profile?.dob).toLocaleString('default', { month: 'long' })}{' '}
+            {new Date(profile?.dob).getDate()}{" "}
+            {new Date(profile?.dob).toLocaleString("default", { month: "long" })}{" "}
             {new Date(profile?.dob).getFullYear()}
           </Text>}
         </View>
@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     marginRight: 5,
     marginBottom: -2
-  },
+  }
 });
 
 export default ProfileScreen;

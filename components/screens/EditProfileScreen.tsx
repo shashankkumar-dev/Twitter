@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from "react-native";
+import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import { getBackgroundColor, getReverseBackgroundColor } from "../views/BackgroundColor";
 import ImagePicker, { ImageLibraryOptions } from "react-native-image-picker";
@@ -81,16 +81,10 @@ const EditProfileScreen: React.FC = () => {
     };
 
     ImagePicker.launchImageLibrary(options, (response) => {
-      // if (!response.didCancel && !response.error) {
-      //   setImageUri(response.uri);
-      // }
     }).then(r => console.log("Image selected", r)).catch(e => console.log(e));
   };
 
-
   const handleImageUpload = () => {
-    // Logic for handling image upload here
-    // Placeholder logic for setting the uploaded image
     setImage(require("../../assets/wall.png"));
   };
 
@@ -103,44 +97,17 @@ const EditProfileScreen: React.FC = () => {
         </TouchableOpacity>
       </View>
       <Text style={styles.title}>Edit Profile</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Name"
-        onChangeText={setName}
-        value={name}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Handle"
-        onChangeText={setHandle}
-        value={handle}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Bio"
-        onChangeText={setBio}
-        value={bio}
-        multiline
-      />
+      <TextInput style={styles.input} placeholder="Name" onChangeText={setName} value={name} />
+      <TextInput style={styles.input} placeholder="Handle" onChangeText={setHandle} value={handle} />
+      <TextInput style={styles.input} placeholder="Bio" onChangeText={setBio} value={bio} multiline />
       <View style={styles.calendar}>
         <Text style={styles.birthDate}>{formatDate(birthDate)}</Text>
         <TouchableOpacity activeOpacity={0} onPress={() => setShowPicker(true)}>
           <Image source={calendarIcon} style={styles.calendarContainer} tintColor={getReverseBackgroundColor()} />
         </TouchableOpacity>
-        {showPicker && (
-          <DateTimePicker
-            value={birthDate}
-            mode="date"
-            onChange={handleDateChange}
-          />
-        )}
+        {showPicker && (<DateTimePicker value={birthDate} mode="date" onChange={handleDateChange} />)}
       </View>
-      <TextInput
-        style={styles.input}
-        placeholder="Location"
-        onChangeText={setLocation}
-        value={location}
-      />
+      <TextInput style={styles.input} placeholder="Location" onChangeText={setLocation} value={location} />
 
       <TouchableOpacity style={styles.button} onPress={handleSaveProfile}>
         <Text style={styles.buttonText}>Save Profile</Text>

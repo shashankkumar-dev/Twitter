@@ -16,14 +16,10 @@ const FeedScreen: React.FC<FeedScreenProps> = ({ handle }) => {
   const [tweets, setTweets] = useState<Tweet[]>([]);
 
   useEffect(() => {
-    console.log("Fetching tweets"+handle);
-    handleFetchTweets().then(r => console.log("Tweets fetched", r)).catch(e => console.log(e));
+    console.log("Fetching tweets" + handle);
+    getTweets(handle).then(r => setTweets(r))
   }, []);
 
-  const handleFetchTweets = async () => {
-    const data = await getTweets(handle);
-    setTweets(data);
-  };
   const renderTweetItem = ({ item }: { item: Tweet }) => <TweetItem item={item} />;
 
   const onClickPencil = () => {
@@ -32,14 +28,9 @@ const FeedScreen: React.FC<FeedScreenProps> = ({ handle }) => {
 
   return (
     <View style={[styles.container, { backgroundColor: getBackgroundColor() }]}>
-      <FlatList
-        data={tweets}
-        renderItem={renderTweetItem}
-        keyExtractor={(item) => item.messageID}
-      />
-
+      <FlatList data={tweets} renderItem={renderTweetItem} keyExtractor={(item) => item.messageID} />
       <TouchableOpacity style={styles.editIconContainer} onPress={onClickPencil}>
-        <Image source={pencilIcon} style={styles.editIcon} tintColor={getReverseBackgroundColor()}/>
+        <Image source={pencilIcon} style={styles.editIcon} tintColor={getReverseBackgroundColor()} />
       </TouchableOpacity>
     </View>
   );
@@ -66,13 +57,13 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 20,
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "center"
   },
   editIcon: {
     width: 20,
     height: 20,
-    resizeMode: "contain",
-  },
+    resizeMode: "contain"
+  }
 });
 
 export default FeedScreen;

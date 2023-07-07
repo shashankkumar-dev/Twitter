@@ -40,7 +40,7 @@ export const getUser = async (): Promise<User | null> => {
     console.error("Error retrieving user:", error);
     return null;
   }
-}
+};
 
 export const storeProfile = async (profile: Profile): Promise<void> => {
   try {
@@ -60,4 +60,4 @@ export const getProfile = async (): Promise<Profile | null> => {
     console.error("Error retrieving Profile:", error);
     return null;
   }
-}
+};

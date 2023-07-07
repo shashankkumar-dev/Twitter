@@ -10,22 +10,21 @@ const TweetItem = ({ item }: { item: Tweet }) => {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    const fetchUser = async () => {
-      const fetchedUser: User|null = await getUser(item.handle); // Call the getUser function to fetch the user data
-      setUser(fetchedUser);
-    };
-
     fetchUser().then(r => console.log("User fetched", r)).catch(e => console.log(e));
   }, []);
 
+  const fetchUser = async () => {
+    const fetchedUser: User | null = await getUser(item.handle); // Call the getUser function to fetch the user data
+    setUser(fetchedUser);
+  };
 
   return (
     <View style={styles.tweetContainer}>
       <Image source={require("../../assets/user.png")} style={styles.avatar} />
       <View style={styles.tweetContent}>
         <View style={styles.tweetHeader}>
-          <Text style={styles.username}>{user?.name ? user?.name : "User" }</Text>
-          <Text style={styles.handle}>@{user?.handle ? user?.handle : "handle" }</Text>
+          <Text style={styles.username}>{user?.name ? user?.name : "User"}</Text>
+          <Text style={styles.handle}>@{user?.handle ? user?.handle : "handle"}</Text>
         </View>
         <Text>{item.content}</Text>
         {/*{item.image && <Image source={{ uri: item.image }} style={styles.image} />}*/}
@@ -113,7 +112,7 @@ const styles = StyleSheet.create({
     marginRight: 10
   },
   tweetHeader: {
-    flexDirection: "row",
+    flexDirection: "row"
   }
 });
 

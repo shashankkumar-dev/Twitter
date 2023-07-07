@@ -17,7 +17,7 @@ const LoginScreen = () => {
           alert("Login failed");
         }
       })
-      .catch((error) => {
+      .catch(() => {
         alert("Login failed");
       });
   };
@@ -29,19 +29,8 @@ const LoginScreen = () => {
   return (
     <View style={[styles.container, { backgroundColor: getBackgroundColor() }]}>
       <Text style={styles.title}>Login</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Username"
-        onChangeText={setUsername}
-        value={username}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        secureTextEntry
-        onChangeText={setPassword}
-        value={password}
-      />
+      <TextInput style={styles.input} placeholder="Username" onChangeText={setUsername} value={username} />
+      <TextInput style={styles.input} placeholder="Password" secureTextEntry onChangeText={setPassword} value={password} />
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Log in</Text>
       </TouchableOpacity>

@@ -1,5 +1,4 @@
 import { navigate } from "./navigation";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import Tweet from "../model/Tweet";
 import { getToken } from "../repository/LocalRepository";
 import User from "../model/User";

@@ -8,7 +8,10 @@ const ComposeScreen: React.FC = () => {
   const [tweetContent, setTweetContent] = useState("");
 
   const handleTweetSubmit = () => {
-    postTweet(tweetContent);
+    postTweet(tweetContent).then(() => {
+      alert("Tweet posted");
+      setTweetContent("");
+    })
   };
 
   return (

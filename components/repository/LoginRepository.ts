@@ -14,8 +14,8 @@ export const login = async (handle: string, password: string) => {
     if (response.status === 200 && response.data.token) {
       const token = response.data.token;
       console.log("token", token);
-      const user = await getUser(handle)
-      const profile = await getProfile(handle)
+      const user = await getUser(handle);
+      const profile = await getProfile(handle);
       await storeToken(token);// Save the token in local storage
       if (user !== null) {
         await storeUser(user);// Save the username in local storage
@@ -35,10 +35,10 @@ export const login = async (handle: string, password: string) => {
 
 export const signUp = async (username: string, password: string, handle: string) => {
   const data = { handle, password };
-  console.log("signUp", data)
+  console.log("signUp", data);
   try {
     const response = await axios.post(SIGNUP_URL, data);
-    console.log(response.data)
+    console.log(response.data);
     if (response.status === 200 && response.data.success === true) {
       console.log("Sign-up successful");
       await postUser(username, password, handle);

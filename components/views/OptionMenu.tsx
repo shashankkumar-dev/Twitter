@@ -7,11 +7,10 @@ import { getReverseBackgroundColor } from "./BackgroundColor";
 const MoreIcon = require("../../assets/more.png");
 
 const handleEditProfile = () => {
-  // Logic for editing a post
+  navigate("EditProfile");
 };
 
 const handleLogout = () => {
-  // Logic for deleting a post
   navigate("Login");
 };
 
