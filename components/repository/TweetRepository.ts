@@ -3,15 +3,17 @@ import { TWEETS_URL } from "../other/url";
 import { get, post } from "../other/Interceptor";
 import { getUser } from "./LocalRepository";
 
-export const getTweets = async (handle: string | undefined): Promise<Tweet[]> => {
+export const getTweets = async (handle: string | undefined, page: number = 1): Promise<Tweet[]> => {
   console.log("getTweets " + handle);
+  const limit = 10;
   try {
-    let response;
-    if (handle === undefined) {
-      response = await get(TWEETS_URL);
-    } else {
-      response = await get(TWEETS_URL + "/" + handle);
+    let url = TWEETS_URL;
+    if (handle !== undefined) {
+      url += `/${handle}`;
     }
+    url += `?page=${page}&limit=${limit}`;
+
+    const response = await get(url);
     console.log("getTweets response:", response);
     if (Array.isArray(response)) {
       return response as Tweet[];

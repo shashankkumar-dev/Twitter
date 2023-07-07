@@ -14,11 +14,21 @@ interface FeedScreenProps {
 
 const FeedScreen: React.FC<FeedScreenProps> = ({ handle }) => {
   const [tweets, setTweets] = useState<Tweet[]>([]);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     console.log("Fetching tweets" + handle);
-    getTweets(handle).then(r => setTweets(r))
-  }, []);
+    fetchTweets();
+  }, [handle, page]);
+
+  const fetchTweets = async () => {
+    try {
+      const fetchedTweets: Tweet[] = await getTweets(handle, page);
+      setTweets(prevTweets => [...prevTweets, ...fetchedTweets]);
+    } catch (error) {
+      console.log("Error fetching tweets:", error);
+    }
+  };
 
   const renderTweetItem = ({ item }: { item: Tweet }) => <TweetItem item={item} />;
 
@@ -26,9 +36,19 @@ const FeedScreen: React.FC<FeedScreenProps> = ({ handle }) => {
     navigate("Compose");
   };
 
+  const loadMoreTweets = () => {
+    setPage(prevPage => prevPage + 1);
+  };
+
   return (
     <View style={[styles.container, { backgroundColor: getBackgroundColor() }]}>
-      <FlatList data={tweets} renderItem={renderTweetItem} keyExtractor={(item) => item.messageID} />
+      <FlatList
+        data={tweets}
+        renderItem={renderTweetItem}
+        keyExtractor={(item) => item.messageID}
+        onEndReached={loadMoreTweets}
+        onEndReachedThreshold={0.1}
+      />
       <TouchableOpacity style={styles.editIconContainer} onPress={onClickPencil}>
         <Image source={pencilIcon} style={styles.editIcon} tintColor={getReverseBackgroundColor()} />
       </TouchableOpacity>
