@@ -8,4 +8,5 @@ interface Profile {
   wallpaperUrl: string | null;
   tweets: String[];
 }
+
 export default Profile;

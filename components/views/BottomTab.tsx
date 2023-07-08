@@ -1,13 +1,14 @@
 import * as React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Image, StyleSheet, useColorScheme } from "react-native";
+import { useColorScheme } from "react-native";
 
 import FeedScreen from "../screens/FeedScreen";
 import ChatScreen from "../screens/ChatScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import EditProfileScreen from "../screens/EditProfileScreen";
 import { renderOptionsMenu } from "./OptionMenu";
-import { getReverseBackgroundColor } from "./BackgroundColor";
+import ComposeScreen from "../screens/ComposeScreen";
+import { IconView } from "./CustomView";
 
 type RootTabParamList = {
   Home: undefined;
@@ -55,32 +56,15 @@ const BottomTab = () => {
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: () => {
-          let icon;
-
-          if (route.name === "Home") {
-            icon = require("../../assets/home.png");
-          } else if (route.name === "Search") {
-            icon = require("../../assets/search.png");
-          } else if (route.name === "Notifications") {
-            icon = require("../../assets/notification.png");
-          } else if (route.name === "Messages") {
-            icon = require("../../assets/mail.png");
-          } else if (route.name === "Profile") {
-            icon = require("../../assets/profile.png");
-          } else {
-            icon = require("../../assets/home.png");
-          }
-
-          // @ts-ignore
-          return <Image source={icon} style={styles.smallIcon} tintColor={getReverseBackgroundColor()} />;
+          return <IconView name={route.name} />;
         },
-        tabBarLabel: "", // Set tabBarLabel to an empty string to remove the label
+        //tabBarLabel: "", // Set tabBarLabel to an empty string to remove the label
         ...tabBarColors,
         headerRight: renderOptionsMenu
       })}
     >
       <Tab.Screen name="Home" component={FeedTab} />
-      <Tab.Screen name="Search" component={ChatScreen} />
+      <Tab.Screen name="Search" component={ComposeScreen} />
       <Tab.Screen name="Notifications" component={EditProfileScreen} />
       <Tab.Screen name="Messages" component={ChatScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
@@ -88,12 +72,4 @@ const BottomTab = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  smallIcon: {
-    width: 25,
-    height: 25,
-    resizeMode: "contain",
-    marginTop: 10
-  }
-});
 export default BottomTab;

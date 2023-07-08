@@ -43,13 +43,13 @@ export const signUp = async (username: string, password: string, handle: string)
       console.log("Sign-up successful");
       await postUser(username, password, handle);
       await postNewProfile(handle);
-      return null;
+      return true;
     } else {
-      console.log("Sign-up unsuccessful");
-      return response.data.error;
+      console.log("Sign-up unsuccessful", response.data.error);
+      return false;
     }
   } catch (error) {
     console.log("signUp error:", error);
-    return error;
+    return false;
   }
 };

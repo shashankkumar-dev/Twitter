@@ -28,7 +28,7 @@ export const postProfile = async (old: Profile, bio: string, dob: Date, location
       tweets: old.tweets
     };
     console.log("postProfile data:", data);
-    await post(PROFILE_URL, data)
+    await post(PROFILE_URL, data);
     await storeProfile(data);
   } catch (error) {
     console.log("postProfile error:", error);

@@ -1,4 +1,5 @@
 import { TouchableOpacity } from "react-native-gesture-handler";
+// @ts-ignore
 import OptionsMenu from "react-native-option-menu";
 import * as React from "react";
 import { navigate } from "../other/navigation";

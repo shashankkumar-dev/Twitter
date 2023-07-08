@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
-import { getBackgroundColor, getReverseBackgroundColor } from "../views/BackgroundColor";
+import { getBackgroundColor } from "../views/BackgroundColor";
 import ImagePicker, { ImageLibraryOptions } from "react-native-image-picker";
 import { postProfile } from "../repository/ProfileRepository";
 import Profile from "../model/Profile";
 import { getProfile, getUser } from "../repository/LocalRepository";
 import User from "../model/User";
+import { ButtonView, IconButton, TextInputView, TitleView } from "../views/CustomView";
+import { formatDate } from "../other/Utils";
 
-
-const calendarIcon = require("../../assets/calendar.png");
 const defaultImage = require("../../assets/wall.png");
-const pencilIcon = require("../../assets/pencil.png");
 
 const EditProfileScreen: React.FC = () => {
   const [name, setName] = useState("");
@@ -64,54 +63,34 @@ const EditProfileScreen: React.FC = () => {
     }
   };
 
-  const formatDate = (_date: Date): string => {
-    const date = new Date(_date);
-    const day = date.getDate().toString().padStart(2, "0");
-    const month = (date.getMonth() + 1).toString().padStart(2, "0");
-    const year = date.getFullYear().toString();
-    return `${day}/${month}/${year}`;
-  };
-
-  const handleImageSelect = () => {
-    const options: ImageLibraryOptions = {
-      mediaType: "photo",
-      maxWidth: 300,
-      maxHeight: 300,
-      quality: 1
-    };
-
-    ImagePicker.launchImageLibrary(options, (response) => {
-    }).then(r => console.log("Image selected", r)).catch(e => console.log(e));
-  };
 
   const handleImageUpload = () => {
     setImage(require("../../assets/wall.png"));
+  };
+
+  const handleCalendarClick = () => {
+    setShowPicker(true);
   };
 
   return (
     <View style={[styles.container, { backgroundColor: getBackgroundColor() }]}>
       <View style={styles.imageContainer}>
         <Image source={imageUri ? { uri: imageUri } : defaultImage} style={styles.uploadedImage} />
-        <TouchableOpacity style={styles.editIconContainer} activeOpacity={0} onPress={handleImageUpload}>
-          <Image source={pencilIcon} style={styles.editIcon} tintColor={getReverseBackgroundColor()} />
-        </TouchableOpacity>
+        <IconButton style={styles.editIconContainer} onPress={handleImageUpload} title="pencil" />
       </View>
-      <Text style={styles.title}>Edit Profile</Text>
-      <TextInput style={styles.input} placeholder="Name" onChangeText={setName} value={name} />
-      <TextInput style={styles.input} placeholder="Handle" onChangeText={setHandle} value={handle} />
-      <TextInput style={styles.input} placeholder="Bio" onChangeText={setBio} value={bio} multiline />
+      <TitleView>Edit Profile</TitleView>
+      <TextInputView placeholder="Name" onChangeText={setName} value={name} />
+      <TextInputView placeholder="Handle" onChangeText={setHandle} value={handle} />
+      <TextInputView placeholder="Bio" onChangeText={setBio} value={bio} multiline />
+
       <View style={styles.calendar}>
         <Text style={styles.birthDate}>{formatDate(birthDate)}</Text>
-        <TouchableOpacity activeOpacity={0} onPress={() => setShowPicker(true)}>
-          <Image source={calendarIcon} style={styles.calendarContainer} tintColor={getReverseBackgroundColor()} />
-        </TouchableOpacity>
+        <IconButton onPress={handleCalendarClick} title="calendar" />
         {showPicker && (<DateTimePicker value={birthDate} mode="date" onChange={handleDateChange} />)}
       </View>
-      <TextInput style={styles.input} placeholder="Location" onChangeText={setLocation} value={location} />
 
-      <TouchableOpacity style={styles.button} onPress={handleSaveProfile}>
-        <Text style={styles.buttonText}>Save Profile</Text>
-      </TouchableOpacity>
+      <TextInputView placeholder="Location" onChangeText={setLocation} value={location} />
+      <ButtonView onPress={handleSaveProfile} title="Save profile" />
     </View>
   );
 };
@@ -122,41 +101,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 20
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20
-  },
-  input: {
-    width: "100%",
-    height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
-    borderRadius: 5,
-    marginBottom: 10,
-    paddingHorizontal: 10
-  },
-  button: {
-    backgroundColor: "#1DA1F2",
-    width: "100%",
-    height: 40,
-    borderRadius: 5,
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 10
-  },
-  buttonText: {
-    color: "white",
-    fontSize: 16,
-    fontWeight: "bold"
-  },
-  calendarContainer: {
-    width: 20,
-    height: 20,
-    resizeMode: "contain",
-    marginLeft: 10,
-    marginRight: 10
   },
   birthDate: {
     flex: 1,
@@ -182,21 +126,10 @@ const styles = StyleSheet.create({
     borderRadius: 100 // Make the image circular
   },
   editIconContainer: {
-    backgroundColor: "#1DA1F2",
     position: "absolute",
     bottom: 0,
-    right: 0,
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    justifyContent: "center",
-    alignItems: "center"
+    right: 0
   },
-  editIcon: {
-    width: 20,
-    height: 20,
-    resizeMode: "contain"
-  }
 });
 
 export default EditProfileScreen;

@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Image, RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Image, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
 import FeedScreen from "./FeedScreen";
-import { getBackgroundColor, getReverseBackgroundColor } from "../views/BackgroundColor";
+import { getBackgroundColor } from "../views/BackgroundColor";
 import Profile from "../model/Profile";
 import { getProfile, getUser } from "../repository/LocalRepository";
 import User from "../model/User";
+import { GrayTextView, InfoView, LineBreak, TextView, TitleView } from "../views/CustomView";
+import { formatDate } from "../other/Utils";
 
-const locationIcon = require("../../assets/location.png");
-const cakeIcon = require("../../assets/cake.png");
-const calendarIcon = require("../../assets/calendar.png");
 
 const ProfileScreen = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -36,174 +35,72 @@ const ProfileScreen = () => {
 
   return (
     <ScrollView style={[styles.container, { backgroundColor: getBackgroundColor() }]}
-                refreshControl={
-                  <RefreshControl
-                    refreshing={refreshing}
-                    onRefresh={handleRefresh}
-                    colors={["#3b5998", "#F44336", "#FF9800"]}
-                  />
-                }
-    >
+                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}>
+
       <View style={styles.wallImageContainer}>
-        {profile?.wallpaperUrl && (
-          <Image
-            source={{ uri: profile.wallpaperUrl }}
-            style={styles.wallImage}
-          />
-        )}
-        {(
-          <Image
-            source={require("../../assets/wall.png")}
-            style={styles.wallImage}
-          />
-        )}
-        {user && user.imageUrl && (
-          <Image
-            source={{ uri: user.imageUrl }}
-            style={styles.profilePicture}
-          />
-        )}
-        {!user || !user.imageUrl && (
-          <Image
-            source={require("../../assets/user.png")}
-            style={styles.profilePicture}
-          />
-        )}
+        <Image source={require("../../assets/wall.png")} style={styles.wallImage} />
+        {!user?.imageUrl && <Image source={require("../../assets/user.png")} style={styles.profilePicture} />}
       </View>
 
       <View style={styles.userInfoContainer}>
-        <Text style={styles.name}>{user?.name}</Text>
-        <Text style={styles.handle}>@{user?.handle}</Text>
-        {profile?.bio && <Text style={styles.bio}>{profile.bio}</Text>}
-        <View style={styles.infoRow}>
-          <Image source={locationIcon} style={styles.smallIcon} tintColor={getReverseBackgroundColor()} />
-          {profile?.location && <Text style={styles.infoValue}>{profile.location}</Text>}
-          <Image source={cakeIcon} style={styles.smallIcon} tintColor={getReverseBackgroundColor()} />
-          {profile?.dob && <Text
-            style={styles.infoValue}>
-            {new Date(profile?.dob).getDate()}{" "}
-            {new Date(profile?.dob).toLocaleString("default", { month: "long" })}{" "}
-            {new Date(profile?.dob).getFullYear()}
-          </Text>}
-        </View>
-        <View style={styles.infoRow}>
-          <Image source={calendarIcon} style={styles.smallIcon} tintColor={getReverseBackgroundColor()} />
-          {user?.joined && (
-            <>
-              <Text style={styles.infoValue}>Joined:</Text>
-              <Text style={styles.infoValue}>
-                {new Date(user.joined).getDate()}{" "}
-                {new Date(user.joined).toLocaleString("default", { month: "long" })}{" "}
-                {new Date(user.joined).getFullYear()}
-              </Text>
-            </>
-          )}
+        <TitleView>{user?.name}</TitleView>
+        <GrayTextView style={styles.handle}>@{user?.handle}</GrayTextView>
+        {profile?.bio && <GrayTextView>{profile.bio}</GrayTextView>}
 
+        <View style={styles.infoContainer}>
+          {profile?.dob && <InfoView content={formatDate(profile.dob)} icon="cake" />}
+          {profile?.location && <InfoView content={profile?.location} icon="location" />}
+          {user?.joined && <InfoView content={formatDate(user.joined)} icon="calendar" />}
         </View>
+
         <View style={styles.followContainer}>
-          <Text style={styles.followCount}>{profile?.following ? profile?.following : 0}</Text>
-          <Text style={styles.followLabel}>Following</Text>
-          <Text style={styles.followCount}>{profile?.followers ? profile?.followers : 0}</Text>
-          <Text style={styles.followLabel}>Followers</Text>
+          <TextView>{profile?.following ? profile?.following : 0}</TextView>
+          <GrayTextView>Following</GrayTextView>
+          <TextView>{profile?.followers ? profile?.followers : 0}</TextView>
+          <GrayTextView>Followers</GrayTextView>
         </View>
+
       </View>
-
-      <View style={styles.lineBreak} />
+      <LineBreak />
       {user?.handle && <FeedScreen handle={user.handle} />}
-
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff"
-  },
+  container: {},
   wallImageContainer: {
     position: "relative",
-    marginBottom: 16
+    marginBottom: 28
   },
   wallImage: {
-    width: "100%",
+    width: "105%",
     height: 200
-  },
-  icon: {
-    padding: -3,
-    marginRight: 8
-  },
-  lineBreak: {
-    borderBottomColor: "gray",
-    borderBottomWidth: 1,
-    marginVertical: 1,
-    marginHorizontal: 16
   },
   profilePicture: {
     width: 100,
     height: 100,
     borderRadius: 50,
     position: "absolute",
-    marginBottom: 16,
+    marginBottom: 20,
     left: 16,
     bottom: -55,
-    borderWidth: 3,
-    borderColor: "#fff"
   },
   userInfoContainer: {
-    padding: 16
-  },
-  name: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 4,
-    marginTop: 16
-  },
-  handle: {
-    fontSize: 16,
-    color: "gray",
-    marginBottom: 8
-  },
-  bio: {
-    fontSize: 16,
-    marginBottom: 16
-  },
-  infoRow: {
-    flexDirection: "row",
-    marginBottom: 8
-  },
-  infoLabel: {
-    fontSize: 14,
-    fontWeight: "bold",
-    marginRight: 1,
-    width: 80
-  },
-  infoValue: {
-    fontSize: 14,
-    marginRight: 10
+    paddingHorizontal: 10,
   },
   followContainer: {
     flexDirection: "row",
     justifyContent: "flex-start"
   },
-  followItem: {
-    alignItems: "center"
+  infoContainer: {
+    marginVertical: 10,
+    flexDirection: "row",
+    justifyContent: "flex-start",
   },
-  followCount: {
-    fontSize: 14,
-    fontWeight: "bold",
-    marginRight: 4
-  },
-  followLabel: {
-    marginRight: 8,
-    fontSize: 14,
-    color: "gray"
-  },
-  smallIcon: {
-    width: 15,
-    height: 15,
-    resizeMode: "contain",
-    marginRight: 5,
-    marginBottom: -2
+  handle: {
+    marginTop: -15,
+    marginBottom: 10,
   }
 });
 

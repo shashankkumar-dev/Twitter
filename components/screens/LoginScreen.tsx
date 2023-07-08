@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { navigate } from "../other/navigation";
 import { getBackgroundColor } from "../views/BackgroundColor";
 import { login } from "../repository/LoginRepository";
+import { ButtonView, TextInputView, TitleView } from "../views/CustomView";
 
 const LoginScreen = () => {
   const [username, setUsername] = useState("");
@@ -28,15 +29,11 @@ const LoginScreen = () => {
 
   return (
     <View style={[styles.container, { backgroundColor: getBackgroundColor() }]}>
-      <Text style={styles.title}>Login</Text>
-      <TextInput style={styles.input} placeholder="Username" onChangeText={setUsername} value={username} />
-      <TextInput style={styles.input} placeholder="Password" secureTextEntry onChangeText={setPassword} value={password} />
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Log in</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
-        <Text style={styles.signUpButtonText}>Sign Up</Text>
-      </TouchableOpacity>
+      <TitleView>Login</TitleView>
+      <TextInputView placeholder="Username" onChangeText={setUsername} value={username} />
+      <TextInputView placeholder="Password" secureTextEntry onChangeText={setPassword} value={password} />
+      <ButtonView onPress={handleLogin} title="Log in" />
+      <ButtonView onPress={handleSignUp} title="Sign up" />
     </View>
   );
 };
@@ -52,15 +49,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 20
-  },
-  input: {
-    width: "100%",
-    height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
-    borderRadius: 5,
-    marginBottom: 10,
-    paddingHorizontal: 10
   },
   button: {
     backgroundColor: "#1DA1F2",

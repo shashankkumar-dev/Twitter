@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Button, StyleSheet, TextInput, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { ButtonView, TextInputView } from "./CustomView";
 
 interface ChatInputProps {
   userId: string;
@@ -20,14 +21,9 @@ const ChatInput: React.FC<ChatInputProps> = ({ userId, socket }) => {
 
   return (
     <View style={styles.inputContainer}>
-      <TextInput
-        style={styles.input}
-        value={message}
-        onChangeText={setMessage}
-        placeholder="Type a message"
-        autoCapitalize="none"
-      />
-      <Button onPress={sendMessage} title="Send" />
+      <TextInputView style={{ flex: 1 }} value={message} onChangeText={setMessage} placeholder="Type a message"
+                     autoCapitalize="none" />
+      <ButtonView style={{ width: "20%" }} onPress={sendMessage} title="Send" />
     </View>
   );
 };
@@ -36,15 +32,6 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: "row",
     margin: 8
-  },
-  input: {
-    flex: 1,
-    marginRight: 8,
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 4
   }
 });
 
