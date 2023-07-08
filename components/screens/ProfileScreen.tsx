@@ -2,34 +2,30 @@ import React, { useEffect, useState } from "react";
 import { Image, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
 import FeedScreen from "./FeedScreen";
 import { getBackgroundColor } from "../views/BackgroundColor";
-import Profile from "../model/Profile";
-import { getProfile, getUser } from "../repository/LocalRepository";
 import User from "../model/User";
 import { GrayTextView, InfoView, LineBreak, TextView, TitleView } from "../views/CustomView";
 import { formatDate } from "../other/Utils";
+import { getUser as getLocalUser }  from "../repository/LocalRepository";
+import { getUser } from "../repository/UserRepository";
 
 
 const ProfileScreen = () => {
   const [user, setUser] = useState<User | null>(null);
-  const [profile, setProfile] = useState<Profile | null>(null);
   const [refreshing, setRefreshing] = useState(false);
 
 
   useEffect(() => {
-    fetchData().then(r => console.log("User fetched", r)).catch(e => console.log(e));
+    getLocalUser().then(r => setUser(r))
   }, []);
 
-  const fetchData = async () => {
-    const fetchedUser = await getUser(); // Call the getUser function to fetch the user data
-    const fetchedProfile = await getProfile();
-    setProfile(fetchedProfile);
-    setUser(fetchedUser);
-  };
-
   const handleRefresh = () => {
-    setRefreshing(true);
-    fetchData().then(() => setRefreshing(false)).catch(e => console.log(e));
-    setRefreshing(false);
+    if(user?.handle) {
+      setRefreshing(true);
+      getUser(user?.handle)
+        .then(r => setUser(r))
+        .catch(e => console.log(e))
+        .finally(() => setRefreshing(false));
+    }
   };
 
 
@@ -39,24 +35,24 @@ const ProfileScreen = () => {
 
       <View style={styles.wallImageContainer}>
         <Image source={require("../../assets/wall.png")} style={styles.wallImage} />
-        {!user?.imageUrl && <Image source={require("../../assets/user.png")} style={styles.profilePicture} />}
+        {!user?.imageUrl && <Image source={require("../../assets/user.png")} style={styles.userPicture} />}
       </View>
 
       <View style={styles.userInfoContainer}>
         <TitleView>{user?.name}</TitleView>
         <GrayTextView style={styles.handle}>@{user?.handle}</GrayTextView>
-        {profile?.bio && <GrayTextView>{profile.bio}</GrayTextView>}
+        {user?.bio && <GrayTextView>{user.bio}</GrayTextView>}
 
         <View style={styles.infoContainer}>
-          {profile?.dob && <InfoView content={formatDate(profile.dob)} icon="cake" />}
-          {profile?.location && <InfoView content={profile?.location} icon="location" />}
+          {user?.dob && <InfoView content={formatDate(user.dob)} icon="cake" />}
+          {user?.location && <InfoView content={user?.location} icon="location" />}
           {user?.joined && <InfoView content={formatDate(user.joined)} icon="calendar" />}
         </View>
 
         <View style={styles.followContainer}>
-          <TextView>{profile?.following ? profile?.following : 0}</TextView>
+          <TextView>{0}</TextView>
           <GrayTextView>Following</GrayTextView>
-          <TextView>{profile?.followers ? profile?.followers : 0}</TextView>
+          <TextView>{0}</TextView>
           <GrayTextView>Followers</GrayTextView>
         </View>
 
@@ -77,7 +73,7 @@ const styles = StyleSheet.create({
     width: "105%",
     height: 200
   },
-  profilePicture: {
+  userPicture: {
     width: 100,
     height: 100,
     borderRadius: 50,

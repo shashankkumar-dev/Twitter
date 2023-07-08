@@ -9,6 +9,7 @@ import EditProfileScreen from "../screens/EditProfileScreen";
 import { renderOptionsMenu } from "./OptionMenu";
 import ComposeScreen from "../screens/ComposeScreen";
 import { IconView } from "./CustomView";
+import UserScreen from "../screens/UserScreen";
 
 type RootTabParamList = {
   Home: undefined;
@@ -64,7 +65,7 @@ const BottomTab = () => {
       })}
     >
       <Tab.Screen name="Home" component={FeedTab} />
-      <Tab.Screen name="Search" component={ComposeScreen} />
+      <Tab.Screen name="Search" component={UserScreen} />
       <Tab.Screen name="Notifications" component={EditProfileScreen} />
       <Tab.Screen name="Messages" component={ChatScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />

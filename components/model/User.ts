@@ -4,7 +4,10 @@ interface User {
   imageUrl: string | null;
   name: string;
   joined: Date;
-  data: string | null;
+  bio: string | null;
+  dob: Date | null;
+  location: string | null;
+  wallpaperUrl: string | null;
 }
 
 export default User;

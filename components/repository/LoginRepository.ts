@@ -1,8 +1,7 @@
 import axios from "axios";
 import { LOGIN_URL, SIGNUP_URL } from "../other/url";
-import { storeProfile, storeToken, storeUser } from "./LocalRepository";
+import { storeToken, storeUser } from "./LocalRepository";
 import { getUser, postUser } from "./UserRepository";
-import { getProfile, postNewProfile } from "./ProfileRepository";
 
 
 export const login = async (handle: string, password: string) => {
@@ -15,13 +14,9 @@ export const login = async (handle: string, password: string) => {
       const token = response.data.token;
       console.log("token", token);
       const user = await getUser(handle);
-      const profile = await getProfile(handle);
       await storeToken(token);// Save the token in local storage
       if (user !== null) {
         await storeUser(user);// Save the username in local storage
-      }
-      if (profile !== null) {
-        await storeProfile(profile);
       }
       console.log("Login successful");
       return true;
@@ -42,7 +37,6 @@ export const signUp = async (username: string, password: string, handle: string)
     if (response.status === 200 && response.data.success === true) {
       console.log("Sign-up successful");
       await postUser(username, password, handle);
-      await postNewProfile(handle);
       return true;
     } else {
       console.log("Sign-up unsuccessful", response.data.error);

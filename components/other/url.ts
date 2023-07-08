@@ -6,6 +6,4 @@ const LOGIN_URL: string = `${API_URL}/login`;
 const SIGNUP_URL: string = `${API_URL}/signup`;
 const USER_URL: string = `${API_URL}/user`;
 
-const PROFILE_URL: string = `${API_URL}/profile`;
-
-export { API_URL, TWEETS_URL, LOGIN_URL, SIGNUP_URL, USER_URL, PROFILE_URL, TWEET_URL };
+export { API_URL, TWEETS_URL, LOGIN_URL, SIGNUP_URL, USER_URL, TWEET_URL };

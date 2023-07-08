@@ -2,13 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import { getBackgroundColor } from "../views/BackgroundColor";
-import ImagePicker, { ImageLibraryOptions } from "react-native-image-picker";
-import { postProfile } from "../repository/ProfileRepository";
-import Profile from "../model/Profile";
-import { getProfile, getUser } from "../repository/LocalRepository";
+import { getUser } from "../repository/LocalRepository";
 import User from "../model/User";
 import { ButtonView, IconButton, TextInputView, TitleView } from "../views/CustomView";
 import { formatDate } from "../other/Utils";
+import { updateUser } from "../repository/UserRepository";
 
 const defaultImage = require("../../assets/wall.png");
 
@@ -21,7 +19,6 @@ const EditProfileScreen: React.FC = () => {
   const [image, setImage] = useState(defaultImage);
   const [showPicker, setShowPicker] = useState(false);
   const [imageUri, setImageUri] = useState<string | null>(null);
-  const [profile, setProfile] = useState<Profile | null>(null);
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
@@ -29,30 +26,26 @@ const EditProfileScreen: React.FC = () => {
   }, []);
 
   const fetchData = async () => {
-    const fetchedUser = await getUser(); // Call the getUser function to fetch the user data
+    const fetchedUser = await getUser();
     setUser(fetchedUser);
-    const fetchedProfile = await getProfile(); // Call the getProfile function to fetch the profile data
-    setProfile(fetchedProfile);
     if (fetchedUser != null) {
       setName(fetchedUser.name);
       setHandle(fetchedUser.handle);
-    }
-    if (fetchedProfile != null) {
-      if (fetchedProfile.bio != null) {
-        setBio(fetchedProfile.bio);
+      if (fetchedUser.bio != null) {
+        setBio(fetchedUser.bio);
       }
-      if (fetchedProfile.location != null) {
-        setLocation(fetchedProfile.location);
+      if (fetchedUser.location != null) {
+        setLocation(fetchedUser.location);
       }
-      if (fetchedProfile.dob != null) {
-        setBirthDate(new Date(fetchedProfile.dob));
+      if (fetchedUser.dob != null) {
+        setBirthDate(new Date(fetchedUser.dob));
       }
     }
   };
 
   const handleSaveProfile = () => {
-    if (profile) {
-      postProfile(profile, bio, birthDate, location).then(r => console.log("Profile saved", r)).catch(e => console.log(e));
+    if (user) {
+      updateUser(user, name, bio, birthDate, imageUri, imageUri, location).then(() => console.log("User updated")).catch(e => console.log(e));
     }
   };
 
