@@ -29,6 +29,8 @@ export const getIconSource = (name: String) => {
     return require("../../assets/cake.png");
   } else if (name === "location") {
     return require("../../assets/location.png");
+  } else if (name === "pencil") {
+    return require("../../assets/pencil.png");
   } else {
     return require("../../assets/home.png");
   }
