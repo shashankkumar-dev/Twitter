@@ -1,4 +1,4 @@
-import { USER_URL } from "../other/url";
+import { USER_URL, USERS_URL } from "../other/url";
 import { get, post, put } from "../other/Interceptor";
 import User from "../model/User";
 
@@ -63,3 +63,15 @@ export const updateUser = async (user: User,
     console.log("updateUser error:", error);
   }
 };
+
+export const getUsers = async (): Promise<User[]> => {
+  console.log("getUsers");
+  try {
+    const response = await get(USERS_URL);
+    console.log("getUsers response:", response);
+    return response as User[];
+  } catch (error) {
+    console.log("getUsers error:", error);
+    return [];
+  }
+}

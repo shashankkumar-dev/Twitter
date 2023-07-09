@@ -1,28 +1,44 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View, FlatList } from "react-native";
-import UserItem from "../views/UserItem";
 import { getBackgroundColor } from "../views/BackgroundColor";
-import { getUsers } from "../repository/UserRepository";
-import User from "../model/User";
+import Relationship from "../model/Relationship";
+import { getFollowees, getFollowers } from "../repository/RelationshipRepository";
+import { getUser } from "../repository/LocalRepository";
+import FollowItem from "../views/FollowItem";
 
+export const FollowerScreen = () => (
+  <FollowScreen isFollower={true} />
+);
 
-const UserScreen: React.FC = () => {
+export const FollowingScreen = () => (
+  <FollowScreen isFollower={false} />
+);
 
-  const [data, setData] = useState<User[]>([]);
+const FollowScreen = ({ isFollower }: { isFollower: boolean }) => {
+
+  const [data, setData] = useState<Relationship[]>([]);
 
   useEffect(() => {
-    getUsers().then((r) => setData(r));
+    getUser().then((r) => {
+      if (r) {
+        if (isFollower) {
+          getFollowers(r.handle).then((r) => setData(r));
+        } else {
+          getFollowees(r.handle).then((r) => setData(r));
+        }
+      }
+    });
   }, []);
 
-  const renderItem = ({ item }: { item: User }) => (
-    <UserItem user={item} />
+  const renderItem = ({ item }: { item: Relationship }) => (
+    <FollowItem rel={item} isFollower={isFollower} />
   );
 
   return (
     <View style={[styles.container, { backgroundColor: getBackgroundColor() }]}>
       <FlatList
         data={data}
-        keyExtractor={(item) => item.handle}
+        keyExtractor={(item) => item.id}
         renderItem={renderItem}
         contentContainerStyle={styles.listContainer}
       />
@@ -60,4 +76,3 @@ const styles = StyleSheet.create({
   }
 });
 
-export default UserScreen;

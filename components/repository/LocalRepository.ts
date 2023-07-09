@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import User from "../model/User";
+import { navigate } from "../other/navigation";
 
 export const storeToken = async (token: string): Promise<void> => {
   try {
@@ -37,6 +38,7 @@ export const getUser = async (): Promise<User | null> => {
     return JSON.parse(<string>user);
   } catch (error) {
     console.error("Error retrieving user:", error);
+    navigate("Login")
     return null;
   }
 };

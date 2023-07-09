@@ -9,6 +9,7 @@ import BottomTab from "../views/BottomTab";
 import EditProfileScreen from "./EditProfileScreen";
 import { getBackgroundColor, getReverseBackgroundColor } from "../views/BackgroundColor";
 import { StatusBar } from "react-native";
+import { FollowerScreen, FollowingScreen }from "./FollowScreen";
 
 type RootStackParamList = {
   Login: undefined;
@@ -16,6 +17,8 @@ type RootStackParamList = {
   Compose: undefined;
   EditProfile: undefined;
   Tab: undefined;
+  Follower: undefined;
+  Followee: undefined;
   Logout: undefined;
 };
 
@@ -40,6 +43,8 @@ export default function MainScreen() {
         <Stack.Screen name="SignUp" component={SignUpScreen} />
         <Stack.Screen name="Compose" component={ComposeScreen} />
         <Stack.Screen name="EditProfile" component={EditProfileScreen} />
+        <Stack.Screen name="Follower" component={FollowerScreen} />
+        <Stack.Screen name="Followee" component={FollowingScreen} />
         <Stack.Screen name="Logout" component={LoginScreen} options={{ title: "Logout" }} />
 
       </Stack.Navigator>

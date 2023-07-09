@@ -8,12 +8,23 @@ import { getReverseBackgroundColor } from "./BackgroundColor";
 const MoreIcon = require("../../assets/more.png");
 
 const handleEditProfile = () => {
+  console.log("Edit profile")
   navigate("EditProfile");
 };
 
 const handleLogout = () => {
   navigate("Login");
 };
+
+const handleFollowers = () => {
+  console.log("Followers");
+  navigate("Follower");
+}
+
+const handleFollowing = () => {
+  console.log("Following");
+  navigate("Followee");
+}
 
 
 export const renderOptionsMenu = () => (
@@ -28,8 +39,8 @@ export const renderOptionsMenu = () => (
         tintColor: getReverseBackgroundColor()
       }}
       destructiveIndex={1}
-      options={["Logout", "EditProfile"]}
-      actions={[handleLogout, handleEditProfile]}
+      options={["Logout", "EditProfile", "Followers", "Following", "Cancel"]}
+      actions={[handleLogout, handleEditProfile, handleFollowers, handleFollowing, () => {  }]}
     />
   </TouchableOpacity>
 );
