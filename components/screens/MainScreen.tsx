@@ -10,6 +10,8 @@ import EditProfileScreen from "./EditProfileScreen";
 import { getBackgroundColor, getReverseBackgroundColor } from "../views/BackgroundColor";
 import { StatusBar } from "react-native";
 import { FollowerScreen, FollowingScreen } from "./FollowScreen";
+import UserScreen from "./UserScreen";
+import ProfileScreen from "./ProfileScreen";
 
 type RootStackParamList = {
   Login: undefined;
@@ -20,6 +22,7 @@ type RootStackParamList = {
   Follower: undefined;
   Followee: undefined;
   Logout: undefined;
+  UserProfile: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -45,6 +48,7 @@ export default function MainScreen() {
         <Stack.Screen name="EditProfile" component={EditProfileScreen} />
         <Stack.Screen name="Follower" component={FollowerScreen} />
         <Stack.Screen name="Followee" component={FollowingScreen} />
+        <Stack.Screen name="UserProfile" component={ProfileScreen} />
         <Stack.Screen name="Logout" component={LoginScreen} options={{ title: "Logout" }} />
 
       </Stack.Navigator>

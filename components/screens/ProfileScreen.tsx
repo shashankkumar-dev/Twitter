@@ -7,20 +7,20 @@ import { GrayTextView, InfoView, LineBreak, TextView, TitleView } from "../views
 import { formatDate } from "../other/Utils";
 import { getUser as getLocalUser } from "../repository/LocalRepository";
 import { getUser } from "../repository/UserRepository";
+import { useRoute } from "@react-navigation/native";
 
 
-export const MyProfileScreen = () => (
-  <ProfileScreen handle={null} />
-)
-const ProfileScreen = ({ handle }: { handle: string|null }) => {
+const ProfileScreen = () => {
   const [user, setUser] = useState<User | null>(null);
   const [refreshing, setRefreshing] = useState(false);
-
+  const route = useRoute();
 
   useEffect(() => {
-    if (handle) {
-      getUser(handle).then(r => setUser(r));
-    } else {
+    try {
+      const { handle } =  route.params as { handle: User|null };
+      setUser(handle)
+    } catch (e) {
+      console.log(e);
       getLocalUser().then(r => setUser(r));
     }
   }, []);

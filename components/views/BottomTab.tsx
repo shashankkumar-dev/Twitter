@@ -4,11 +4,12 @@ import { useColorScheme } from "react-native";
 
 import FeedScreen from "../screens/FeedScreen";
 import ChatScreen from "../screens/ChatScreen";
-import ProfileScreen, { MyProfileScreen } from "../screens/ProfileScreen";
+import ProfileScreen from "../screens/ProfileScreen";
 import EditProfileScreen from "../screens/EditProfileScreen";
 import { renderOptionsMenu } from "./OptionMenu";
 import { IconView } from "./CustomView";
 import UserScreen from "../screens/UserScreen";
+import { NotificationScreen } from "../screens/NotificationScreen";
 
 type RootTabParamList = {
   Home: undefined;
@@ -65,9 +66,9 @@ const BottomTab = () => {
     >
       <Tab.Screen name="Home" component={FeedTab} />
       <Tab.Screen name="Search" component={UserScreen} />
-      <Tab.Screen name="Notifications" component={EditProfileScreen} />
+      <Tab.Screen name="Notifications" component={NotificationScreen} />
       <Tab.Screen name="Messages" component={ChatScreen} />
-      <Tab.Screen name="Profile" component={MyProfileScreen} />
+      <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );
 };
