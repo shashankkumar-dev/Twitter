@@ -9,13 +9,20 @@ import { getUser as getLocalUser } from "../repository/LocalRepository";
 import { getUser } from "../repository/UserRepository";
 
 
-const ProfileScreen = () => {
+export const MyProfileScreen = () => (
+  <ProfileScreen handle={null} />
+)
+const ProfileScreen = ({ handle }: { handle: string|null }) => {
   const [user, setUser] = useState<User | null>(null);
   const [refreshing, setRefreshing] = useState(false);
 
 
   useEffect(() => {
-    getLocalUser().then(r => setUser(r));
+    if (handle) {
+      getUser(handle).then(r => setUser(r));
+    } else {
+      getLocalUser().then(r => setUser(r));
+    }
   }, []);
 
   const handleRefresh = () => {

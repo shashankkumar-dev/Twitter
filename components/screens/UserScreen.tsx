@@ -15,7 +15,7 @@ const UserScreen: React.FC = () => {
   }, []);
 
   const renderItem = ({ item }: { item: User }) => (
-    <UserItem user={item} />
+    <UserItem user={item} isFollower={null} />
   );
 
   return (
@@ -44,20 +44,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 16
   },
-  avatar: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    marginRight: 16
-  },
-  name: {
-    fontSize: 16,
-    fontWeight: "bold"
-  },
-  username: {
-    fontSize: 14,
-    color: "gray"
-  }
 });
 
 export default UserScreen;

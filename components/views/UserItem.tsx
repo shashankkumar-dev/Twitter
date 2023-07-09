@@ -1,18 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Image, StyleSheet, View } from "react-native";
 import User from "../model/User";
 import { ButtonView, GrayTextView, TextView } from "./CustomView";
 import { getIconSource } from "./GetIconSource";
 import { follow } from "../repository/RelationshipRepository";
 
-const UserItem = ({ user }: { user: User }) => {
+const UserItem = ({ user, isFollower }: { user: User, isFollower: boolean|null }) => {
 
-  const handleFollow = () => {
+  const [title, setTitle] = useState<string>("");
+  const [show, setShow] = useState<boolean>(false);
+
+
+  useEffect(() => {
+    if(isFollower === null) {
+      setTitle("Follow");
+    } else if(isFollower) {
+      setTitle("Unfollow");
+    } else {
+      setTitle("Remove");
+    }
+    setShow(true)
+  }, []);
+
+  const handleClick = () => {
     console.log("Follow");
-    follow(user.handle).then(r => console.log(r));
+    if (isFollower === null) {
+      follow(user.handle).then(r => console.log(r));
+    } else if (isFollower) {
+      setShow(false)
+    } else {
+      setShow(false)
+    }
   };
 
-  return (
+  return show ? (
     <View style={styles.tweetContainer}>
       <Image source={getIconSource("user")} style={styles.avatar} />
       <View style={styles.tweetHeader}>
@@ -21,10 +42,10 @@ const UserItem = ({ user }: { user: User }) => {
           <GrayTextView>@{user.handle}</GrayTextView>
           <TextView>{user?.bio}</TextView>
         </View>
-        <ButtonView style={{ width: "20%" }} onPress={handleFollow} title="Follow" />
+        <ButtonView style={{ width: "25%" }} onPress={handleClick} title={title} />
       </View>
     </View>
-  );
+  ) : null;
 };
 
 const styles = StyleSheet.create({

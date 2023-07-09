@@ -55,24 +55,5 @@ const styles = StyleSheet.create({
   listContainer: {
     flexGrow: 1
   },
-  followerItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 16
-  },
-  avatar: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    marginRight: 16
-  },
-  name: {
-    fontSize: 16,
-    fontWeight: "bold"
-  },
-  username: {
-    fontSize: 14,
-    color: "gray"
-  }
 });
 

@@ -4,7 +4,7 @@ import { useColorScheme } from "react-native";
 
 import FeedScreen from "../screens/FeedScreen";
 import ChatScreen from "../screens/ChatScreen";
-import ProfileScreen from "../screens/ProfileScreen";
+import ProfileScreen, { MyProfileScreen } from "../screens/ProfileScreen";
 import EditProfileScreen from "../screens/EditProfileScreen";
 import { renderOptionsMenu } from "./OptionMenu";
 import { IconView } from "./CustomView";
@@ -67,7 +67,7 @@ const BottomTab = () => {
       <Tab.Screen name="Search" component={UserScreen} />
       <Tab.Screen name="Notifications" component={EditProfileScreen} />
       <Tab.Screen name="Messages" component={ChatScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
+      <Tab.Screen name="Profile" component={MyProfileScreen} />
     </Tab.Navigator>
   );
 };
