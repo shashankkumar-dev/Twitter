@@ -9,7 +9,7 @@ import BottomTab from "../views/BottomTab";
 import EditProfileScreen from "./EditProfileScreen";
 import { getBackgroundColor, getReverseBackgroundColor } from "../views/BackgroundColor";
 import { StatusBar } from "react-native";
-import { FollowerScreen, FollowingScreen }from "./FollowScreen";
+import { FollowerScreen, FollowingScreen } from "./FollowScreen";
 
 type RootStackParamList = {
   Login: undefined;

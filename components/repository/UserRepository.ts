@@ -25,7 +25,7 @@ export const postUser = async (username: string, password: string, handle: strin
       bio: null,
       dob: null,
       location: null,
-      wallpaperUrl: null,
+      wallpaperUrl: null
     };
     console.log("postUser data:", data);
     const response = await post(USER_URL, data);
@@ -37,18 +37,18 @@ export const postUser = async (username: string, password: string, handle: strin
 
 
 export const updateUser = async (user: User,
-                                 name: string|null,
-                                 bio: string|null,
-                                 dob: Date|null,
-                                 imageUrl: string|null,
-                                 wallpaperUrl: string|null,
-                                 location: string|null,
+                                 name: string | null,
+                                 bio: string | null,
+                                 dob: Date | null,
+                                 imageUrl: string | null,
+                                 wallpaperUrl: string | null,
+                                 location: string | null
 ) => {
   try {
     const data: User = {
       _id: user._id,
       handle: user.handle,
-      imageUrl: imageUrl ? imageUrl: user.imageUrl,
+      imageUrl: imageUrl ? imageUrl : user.imageUrl,
       name: name ? name : user.name,
       joined: user.joined,
       bio: bio ? bio : user.bio,
@@ -74,4 +74,4 @@ export const getUsers = async (): Promise<User[]> => {
     console.log("getUsers error:", error);
     return [];
   }
-}
+};

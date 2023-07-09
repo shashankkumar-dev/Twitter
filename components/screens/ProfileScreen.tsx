@@ -5,7 +5,7 @@ import { getBackgroundColor } from "../views/BackgroundColor";
 import User from "../model/User";
 import { GrayTextView, InfoView, LineBreak, TextView, TitleView } from "../views/CustomView";
 import { formatDate } from "../other/Utils";
-import { getUser as getLocalUser }  from "../repository/LocalRepository";
+import { getUser as getLocalUser } from "../repository/LocalRepository";
 import { getUser } from "../repository/UserRepository";
 
 
@@ -15,11 +15,11 @@ const ProfileScreen = () => {
 
 
   useEffect(() => {
-    getLocalUser().then(r => setUser(r))
+    getLocalUser().then(r => setUser(r));
   }, []);
 
   const handleRefresh = () => {
-    if(user?.handle) {
+    if (user?.handle) {
       setRefreshing(true);
       getUser(user?.handle)
         .then(r => setUser(r))
@@ -80,10 +80,10 @@ const styles = StyleSheet.create({
     position: "absolute",
     marginBottom: 20,
     left: 16,
-    bottom: -55,
+    bottom: -55
   },
   userInfoContainer: {
-    paddingHorizontal: 10,
+    paddingHorizontal: 10
   },
   followContainer: {
     flexDirection: "row",
@@ -92,11 +92,11 @@ const styles = StyleSheet.create({
   infoContainer: {
     marginVertical: 10,
     flexDirection: "row",
-    justifyContent: "flex-start",
+    justifyContent: "flex-start"
   },
   handle: {
     marginTop: -15,
-    marginBottom: 10,
+    marginBottom: 10
   }
 });
 

@@ -32,7 +32,7 @@ export const get = async <T>(url: string): Promise<T> => {
   return handleResponse(response);
 };
 
-export const post = async (url: string, data: User | Tweet | Relationship ): Promise<any> => {
+export const post = async (url: string, data: User | Tweet | Relationship): Promise<any> => {
   const tokenHeader = await attachTokenToHeaders();
   const headers = {
     ...tokenHeader,
@@ -48,7 +48,7 @@ export const post = async (url: string, data: User | Tweet | Relationship ): Pro
   return handleResponse(response);
 };
 
-export const put = async (url: string, data: User | Tweet ): Promise<any> => {
+export const put = async (url: string, data: User | Tweet): Promise<any> => {
   const tokenHeader = await attachTokenToHeaders();
   const headers = {
     ...tokenHeader,

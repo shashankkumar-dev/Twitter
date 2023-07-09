@@ -76,12 +76,12 @@ export const ButtonView: React.FC<ButtonProps> = ({ onPress, title, style }) => 
   </TouchableOpacity>
 );
 
-export const InfoView: React.FC<InfoProps> = ({content, icon }) => (
+export const InfoView: React.FC<InfoProps> = ({ content, icon }) => (
   <View style={styles.infoRow}>
-    <IconView name={icon}/>
+    <IconView name={icon} />
     <GrayTextView>{content}</GrayTextView>
   </View>
-)
+);
 
 export const LineBreak: React.FC = () => (
   <View style={styles.lineBreak} />
@@ -90,17 +90,17 @@ export const LineBreak: React.FC = () => (
 const styles = StyleSheet.create({
   text: {
     margin: 2,
-    fontSize: 16,
+    fontSize: 16
   },
   textGray: {
     margin: 5,
-    color: "gray",
+    color: "gray"
   },
   image: {
     resizeMode: "contain",
     width: 20,
     height: 20,
-    marginHorizontal: 3,
+    marginHorizontal: 3
   },
   input: {
     width: "100%",
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    fontWeight: "bold",
+    fontWeight: "bold"
   },
   lineBreak: {
     height: 1,
@@ -138,8 +138,8 @@ const styles = StyleSheet.create({
   infoRow: {
     flexDirection: "row",
     marginBottom: 8,
-    marginRight: 8,
-  },
+    marginRight: 8
+  }
 });
 
 

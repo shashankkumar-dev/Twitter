@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, FlatList } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import UserItem from "../views/UserItem";
 import { getBackgroundColor } from "../views/BackgroundColor";
 import { getUsers } from "../repository/UserRepository";

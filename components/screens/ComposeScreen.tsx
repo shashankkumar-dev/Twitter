@@ -17,7 +17,8 @@ const ComposeScreen: React.FC = () => {
 
   return (
     <View style={[styles.container, { backgroundColor: getBackgroundColor() }]}>
-      <TextInputView style={styles.input} placeholder="What's happening?" multiline value={tweetContent} onChangeText={setTweetContent} />
+      <TextInputView style={styles.input} placeholder="What's happening?" multiline value={tweetContent}
+                     onChangeText={setTweetContent} />
       <ButtonView title="Tweet" onPress={handleTweetSubmit} />
     </View>
   );

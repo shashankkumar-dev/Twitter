@@ -7,7 +7,6 @@ import ChatScreen from "../screens/ChatScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import EditProfileScreen from "../screens/EditProfileScreen";
 import { renderOptionsMenu } from "./OptionMenu";
-import ComposeScreen from "../screens/ComposeScreen";
 import { IconView } from "./CustomView";
 import UserScreen from "../screens/UserScreen";
 

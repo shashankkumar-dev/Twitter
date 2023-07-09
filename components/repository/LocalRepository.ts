@@ -38,7 +38,7 @@ export const getUser = async (): Promise<User | null> => {
     return JSON.parse(<string>user);
   } catch (error) {
     console.error("Error retrieving user:", error);
-    navigate("Login")
+    navigate("Login");
     return null;
   }
 };
